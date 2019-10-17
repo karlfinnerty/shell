@@ -9,7 +9,8 @@ from colours import Colours
 
 #the main shell class
 class MyShell(cmd.Cmd):
-	cmd.Cmd.intro = "Hello and welcome to KarlShell! (V1.3 running from {})".format(os.environ['PWD'])
+	shell = os.environ['PWD']
+	cmd.Cmd.intro = "Hello and welcome to KarlShell! (V1.3.1 running from {})".format(shell)
 	cmd.Cmd.prompt = Colours.cyan('(KarlShell:') + Colours.pink(os.getcwd() + ') ')
 
 	dirs = os.getcwd().split('/')
@@ -18,7 +19,7 @@ class MyShell(cmd.Cmd):
 	#changes the directory
 	#is designed to take either the full path starting from the home directory e.g. /home/user/Documents, or take a single subdirectory of the cwd e.g. /Documents
 	def do_cd(self, line):											
-		#error handling ensures wrong directory path will not crash shell
+		#error handling ensures wrong directory path or permission denial will not crash shell
 		try:									
 			if self.home in line: 									
 				os.chdir('/' + line)
@@ -39,7 +40,7 @@ class MyShell(cmd.Cmd):
 		print(os.getcwd())
 
 	#lists and displays all subdirectories and files
-	# if redirect is True, pass output on to output_redirect method
+	# if redirect is True, pass output onto output_redirect method
 	def do_dir(self, line):
 		if self.check_redirect(line) == False:
 			print("\n".join(os.listdir()))
@@ -68,17 +69,27 @@ class MyShell(cmd.Cmd):
 			out = (' '.join(tokens[0:-2]))
 			self.output_redirect(line, out)
 
-	### For man look into Grapse
-	#opens manual located in readme file and displays to user
+	#opens manual located in readme file and displays to user twenty lines at a time
 	def do_help(self, line):
-		if self.check_redirect(line) == False:								
-			with open("readme", "r") as f:
-				print(f.read())
-		else:
-			with open("readme", "r") as f:
-				out = f.read()
-			self.output_redirect(line, out)
-
+		try:
+			if self.check_redirect(line) == False:								
+				with open(self.shell + "/readme", "r") as f:
+					i = 2
+					j = 22
+					help_lines = f.read().split("\n")
+					next_twenty = '\n'.join(help_lines[i:j])
+					while j < len(help_lines):
+						next_twenty = '\n'.join(help_lines[i:j])
+						print(next_twenty)
+						input()
+						i += 20
+						j += 20
+			else:
+				with open(self.shell + "/readme", "r") as f:
+					out = f.read()
+				self.output_redirect(line, out)
+		except:
+			(print("There appears to be a problem with the help manual..."))
 
 	#clears the display by checking terminal size and printing new lines
 	def do_clr(self, line):											
@@ -92,7 +103,10 @@ class MyShell(cmd.Cmd):
 
 	#an extra internal command I added to help with testing
 	def do_sleep(self, line):
-		time.sleep(int(line))
+		try:
+			time.sleep(int(line))
+		except:
+			print("Exception!")
 
 	#exits the shell
 	def do_quit(self, line):
@@ -127,6 +141,7 @@ class MyShell(cmd.Cmd):
 				print("Exception!")
 				self.do_quit('')
 
+	#execute program defined in line as background process
 	def background_exec(self, line):
 		line = self.get_tokens(line)
 		subprocess.Popen(line)
