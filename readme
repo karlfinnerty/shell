@@ -1,0 +1,82 @@
+#Name: Karl Finnerty
+#Student ID: 17428366
+			USER MANUAL
+
+This manual will give directions to the use
+and operation of myshell.py
+
+			INDEX
+
+1. Internal Commands
+2. Executing Commands From Batch File
+3. Program Invocation
+4. Background Execution
+5. Output Redirection
+
+1.			Internal Commands
+All internal commands are executed without need of brackets or otherwise.
+	pwd 		- print the current working directory
+
+	cd <d>		- change the current directory. Requires directory d as argument. d can be either a full system path or single subdirectory within current working directory.
+
+	dir			- list all subdirectories and files.
+
+	environ		- list all of the environmental strings of the OS.
+
+	echo <s>	- print string s that user enters to prompt after command.
+
+	help		- print the help manual twenty lines at a time. Press enter to move onto next twenty lines.
+
+	clr		- clears the display
+
+	pause		- pause all operations of shell until user presses enter.
+
+	sleep <t>	- pause the shell for t seconds.
+
+	quit		- stop all processes and quit the shell.
+
+2.			Executing Commands From Batch File
+The batch file should have each command on separate line for the shell to interpret correctly.
+The file can be read using the following syntax:
+	
+	>python3 myshell.py commands.bat
+
+Where myshell.py is the shell file, and commands.bat contains the commands to be executed.
+Note that this done while launching the shell.
+
+
+3.			Program Invocation
+If the user attempt to enter any command that is not among the internal commands, the shell will interpret it as a program invocation.
+The shell will attempt to run the command, if it can't find any program corresponding with it on the system the shell will produce an exception.
+See the following examples of how to use invocation:
+
+	(MyShell) python3
+
+	(MyShell) python3 example_program.py
+
+	(MyShell) firefox
+
+This is achieved by forking the shell and running the program through the child process.
+
+
+4.			Background Execution
+A process can be executed in the background by typing an ampersand after a program invocation call.
+Example Usage:
+	
+	(MyShell) spotify &
+
+This causes the process to run as a subproccess in the background, which allows the user to immediatly return to the command prompt.
+Background Execution is useful for programs that run constantly such as spotify.
+
+
+5.			Output Redirection
+The output may be redirected for the commands dir, environ, echo and help by typing either a '>' or '>>' followed by a file name after the command.
+
+Example Usage:
+
+	(Myshell) echo the quick brown fox jumped over the lazy dog > file_name.txt
+
+	(Myshell) echo What is the airspeed velocity of an unladen swallow? >> file_name.txt
+
+Using the '>' redirect token will create a new file or overwrite a file which already exists with the requested name.
+Instead using the '>>' redirect token will append to the existing file rather than overwrite it.

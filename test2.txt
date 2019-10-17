@@ -1,0 +1,10 @@
+dir
+dir > result.txt
+dir >> result.txt
+dir >> result.txt
+pause
+echo hello
+echo hello > result.txt
+echo hello >> result.txt
+pause
+echo this is a very very long sentence >> result.txt

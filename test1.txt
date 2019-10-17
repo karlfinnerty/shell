@@ -1,0 +1,72 @@
+echo testing cd...
+sleep 1
+
+cd /home
+cd /karl
+cd /Documents
+cd /Python
+cd /home
+cd /burgers
+cd
+cd /home/karl/Documents/Python/shell
+
+echo tests passed
+pause
+clr
+sleep 1
+
+echo testing dir...
+sleep 1
+dir
+sleep 1
+dir oops
+
+echo tests passed
+pause
+clr
+sleep 1
+
+echo testing environ...
+sleep 1
+environ
+sleep 1
+environ oops
+
+echo tests passed
+pause
+clr
+sleep 1
+
+echo testing echo...
+sleep 1
+echo hello
+sleep 1
+echo hello world
+sleep 1 
+echo the quick brown fox jumped over the lazy dog
+sleep 1
+
+echo tests passed
+pause
+clr
+sleep 1
+
+echo testing help...
+sleep 1
+help
+
+echo tests passed
+pause
+clr
+sleep 1
+
+echo testing pause...
+pause
+
+echo tests passed
+pause
+clr
+sleep 1
+
+echo all tests passed
+
